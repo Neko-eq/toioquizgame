@@ -1,4 +1,5 @@
-import { CoreCube } from "./index.js"; // 自分の階層に合わせてパス調整
+import { CoreCube } from './index.js';
+
 
 let cube;
 let virtualX = 180;
