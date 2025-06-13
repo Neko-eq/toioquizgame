@@ -10,27 +10,35 @@ function updateToioIcon() {
 }
 
 connectBtn.addEventListener("click", async () => {
-  const cube = await navigator.bluetooth.requestDevice({
-    filters: [{ namePrefix: "toio Core Cube" }],
-    optionalServices: [0x10b0]
-  });
+  try {
+    const cube = await navigator.bluetooth.requestDevice({
+      filters: [{ namePrefix: "toio Core Cube" }],
+      optionalServices: [0x10b0]
+    });
 
-  const server = await cube.gatt.connect();
-  const service = await server.getPrimaryService(0x10b0);
-  const charButton = await service.getCharacteristic(0x10b1);
+    const server = await cube.gatt.connect();
+    console.log("✅ 接続成功");
 
-  await charButton.startNotifications();
-  charButton.addEventListener("characteristicvaluechanged", (event) => {
-    const value = event.target.value;
-    const buttonPressed = value.getUint8(0);
+    const service = await server.getPrimaryService(0x10b0);
+    const charButton = await service.getCharacteristic(0x10b1);
+    console.log("✅ サービスとキャラクタリスティック取得成功");
 
-    if (buttonPressed === 1) {
-      // ボタンが押されたら仮想toioを上に10px動かす
-      virtualY -= 10;
-      if (virtualY < 0) virtualY = 0;
-      updateToioIcon();
-    }
-  });
+    await charButton.startNotifications();
+    console.log("✅ 通知開始成功");
 
-  alert("toioに接続しました。ボタンを押すと動きます！");
+    charButton.addEventListener("characteristicvaluechanged", (event) => {
+      const value = event.target.value;
+      const buttonPressed = value.getUint8(0);
+      if (buttonPressed === 1) {
+        virtualY -= 10;
+        if (virtualY < 0) virtualY = 0;
+        updateToioIcon();
+      }
+    });
+
+    alert("✅ toioに接続しました。ボタンを押すと動きます！");
+  } catch (err) {
+    console.error("❌ エラー発生:", err);
+    alert("⚠️ toioとの接続に失敗しました: " + err.message);
+  }
 });
