@@ -7,7 +7,10 @@
 </head>
 <body>
   <h1>仮想toioを動かしてみよう</h1>
-  <script type="module" src="main.js"></script>
+ <!-- index.html -->
+<script src="./index.js"></script>           <!-- ライブラリを先に読み込む -->
+<script type="module" src="./main.js"></script> <!-- アプリ本体 -->
+
   <button id="connect">toioに接続</button>
   <div id="play-area">
     <div id="toio"></div>
