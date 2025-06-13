@@ -42,4 +42,11 @@ document.getElementById("connect").addEventListener("click", async () => {
     console.error("接続エラー:", error);
     alert("toioとの接続に失敗しました");
   }
+  console.log("main.js読み込み完了");
+
+// あとのコード…
+document.getElementById("connect").addEventListener("click", async () => {
+  // ...
+});
+
 });
