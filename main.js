@@ -4,13 +4,16 @@ document.getElementById("connect").addEventListener("click", async () => {
   try {
     console.log("接続開始...");
 
-    const device = await navigator.bluetooth.requestDevice({
-      filters: [{ namePrefix: 'toio Core Cube' }],
-      optionalServices: ['000010b0-0000-1000-8000-00805f9b34fb']  // ← UUIDは128bit形式で指定
-    });
+   const device = await navigator.bluetooth.requestDevice({
+  filters: [{ namePrefix: 'toio Core Cube' }],
+  optionalServices: [] // UUID指定なしで全サービスを確認
+});
+const server = await device.gatt.connect();
+const services = await server.getPrimaryServices();
 
-    const server = await device.gatt.connect();
-    const service = await server.getPrimaryService('000010b0-0000-1000-8000-00805f9b34fb');
+for (const service of services) {
+  console.log('Service UUID:', service.uuid);
+}
 
     alert("toioと接続成功しました！");
     console.log("toioと接続できました！");
