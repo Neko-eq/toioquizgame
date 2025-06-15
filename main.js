@@ -6,12 +6,13 @@ document.getElementById("connect").addEventListener("click", async () => {
   try {
     // Bluetoothデバイス検索
     const device = await navigator.bluetooth.requestDevice({
-      filters: [{ namePrefix: 'toio Core Cube' }],
-      optionalServices: [0x10b0]
-    });
+  filters: [{ namePrefix: 'toio Core Cube' }],
+  optionalServices: ['000010b0-0000-1000-8000-00805f9b34fb']
+});
 
-    const server = await device.gatt.connect();
-    const service = await server.getPrimaryService(0x10b0);
+const server = await device.gatt.connect();
+const service = await server.getPrimaryService('000010b0-0000-1000-8000-00805f9b34fb');
+
 
     // Motor制御用キャラクタリスティック取得
     const motorChar = await service.getCharacteristic(0x02);
@@ -42,11 +43,5 @@ document.getElementById("connect").addEventListener("click", async () => {
     console.error("接続エラー:", error);
     alert("toioとの接続に失敗しました");
   }
-  console.log("main.js読み込み完了");
-
-// あとのコード…
-document.getElementById("connect").addEventListener("click", async () => {
-  // ...
-});
-
+  
 });
