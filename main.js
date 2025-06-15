@@ -5,16 +5,17 @@ document.getElementById("connect").addEventListener("click", async () => {
     console.log("接続開始...");
 
     const device = await navigator.bluetooth.requestDevice({
-      acceptAllDevices: true,
+      filters: [{ namePrefix: 'toio Core Cube' }],
       optionalServices: [
-        '0000180f-0000-1000-8000-00805f9b34fb', // Battery Service
+        '0000fd6f-0000-1000-8000-00805f9b34fb', // toio制御用
+        '0000180f-0000-1000-8000-00805f9b34fb', // Battery
         '00001800-0000-1000-8000-00805f9b34fb', // Generic Access
         '00001801-0000-1000-8000-00805f9b34fb'  // Generic Attribute
       ]
     });
 
     const server = await device.gatt.connect();
-    await new Promise(resolve => setTimeout(resolve, 1000)); // 接続後に1秒待つ
+    await new Promise(resolve => setTimeout(resolve, 1000)); // 少し待つ
 
     const services = await server.getPrimaryServices();
 
@@ -27,7 +28,7 @@ document.getElementById("connect").addEventListener("click", async () => {
       console.log(`Service UUID: ${service.uuid}`);
     }
 
-    alert("接続成功！サービスUUIDをコンソールで確認してください");
+    alert("接続成功！toio制御サービスが表示されているか確認してください");
 
   } catch (error) {
     console.error("接続エラー:", error);
