@@ -5,14 +5,10 @@ document.getElementById("connect").addEventListener("click", async () => {
     console.log("接続開始...");
 
     const device = await navigator.bluetooth.requestDevice({
-      filters: [{ namePrefix: 'toio Core Cube' }],
-      optionalServices: [
-        '0000fd6f-0000-1000-8000-00805f9b34fb', // toio制御用
-        '0000180f-0000-1000-8000-00805f9b34fb', // Battery
-        '00001800-0000-1000-8000-00805f9b34fb', // Generic Access
-        '00001801-0000-1000-8000-00805f9b34fb'  // Generic Attribute
-      ]
-    });
+  acceptAllDevices: true,
+  optionalServices: ['0000fd6f-0000-1000-8000-00805f9b34fb']
+});
+
 
     const server = await device.gatt.connect();
     await new Promise(resolve => setTimeout(resolve, 1000)); // 少し待つ
