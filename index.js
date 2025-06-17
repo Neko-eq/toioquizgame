@@ -1,4 +1,3 @@
-
 // Global Constants
 const DEFAULT_SPEED = 0.6;
 let gMaxSpeed = [ DEFAULT_SPEED, DEFAULT_SPEED ];
